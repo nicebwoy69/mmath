@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mental Math Trainer</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <header>
+      <h1>Mental Math Trainer</h1>
+    </header>
+
+    <!-- Question and Answer Section -->
+    <section class="question-area">
+      <h2 id="question">4 + 9</h2>
+      <input type="number" id="answer" placeholder="Your answer" aria-label="Answer input">
+      <div class="button-group">
+        <button class="submit-btn" onclick="checkAnswer()" aria-label="Submit answer">Submit</button>
+        <button class="hint-btn" onclick="showHint()" aria-label="Show hint">Hint</button>
+      </div>
+      <div id="timer" class="timer" style="display: none;" aria-live="polite">Time: 10</div>
+      <div id="feedback" class="feedback" aria-live="polite"></div>
+    </section>
+
+    <!-- Game Settings Section (collapsible for mobile) -->
+    <div class="settings-row">
+      <div class="select-group">
+        <div class="setting">
+          <label for="game-mode">Game Mode:</label>
+          <select id="game-mode" aria-label="Game Mode">
+            <option value="practice">Practice</option>
+            <option value="timed">Timed</option>
+          </select>
+        </div>
+        <div class="setting">
+          <label for="difficulty-level">Difficulty Level:</label>
+          <select id="difficulty-level" aria-label="Difficulty Level">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="operations-group" aria-label="Operation Selection">
+        <label>Operations:</label>
+        <div>
+          <input type="checkbox" id="add" checked aria-label="Addition"> <label for="add">Addition</label>
+        </div>
+        <div>
+          <input type="checkbox" id="subtract" aria-label="Subtraction"> <label for="subtract">Subtraction</label>
+        </div>
+        <div>
+          <input type="checkbox" id="multiply" aria-label="Multiplication"> <label for="multiply">Multiplication</label>
+        </div>
+        <div>
+          <input type="checkbox" id="divide" aria-label="Division"> <label for="divide">Division</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedback and Progress Section -->
+    <section class="feedback-and-progress">
+      <div class="progress-container">
+        <span class="progress-bar-label">Accuracy Progress</span>
+        <div class="progress-bar">
+          <div class="progress" id="progress"></div>
+        </div>
+      </div>
+      <div id="score" class="score-text" aria-live="polite">Score: 0</div>
+      <div id="accuracy" class="score-text" aria-live="polite">Accuracy: 100%</div>
+    </section>
+
+    <!-- Start Game Button -->
+    <button class="start-btn" onclick="startGame()" aria-label="Start game">Start Game</button>
+</div>
+
+<!-- Hint Modal -->
+<div id="hintModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="document.getElementById('hintModal').style.display='none'" aria-label="Close hint modal">&times;</span>
+    <p id="hint">Here is your hint.</p>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

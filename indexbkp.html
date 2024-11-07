@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mental Math Trainer</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container">
+    <header>
+      <h1>Mental Math Trainer</h1>
+    </header>
+  
+    <!-- Game Settings Section -->
+    <div class="settings-row">
+      <div class="select-group">
+        <div class="setting">
+          <label for="game-mode">Game Mode:</label>
+          <select id="game-mode">
+            <option value="practice">Practice</option>
+            <option value="timed">Timed</option>
+          </select>
+        </div>
+        <div class="setting">
+          <label for="difficulty-level">Difficulty Level:</label>
+          <select id="difficulty-level">
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="operations-group">
+        <label>Operations:</label>
+        <div>
+          <input type="checkbox" id="add" checked> <label for="add">Addition</label>
+        </div>
+        <div>
+          <input type="checkbox" id="subtract"> <label for="subtract">Subtraction</label>
+        </div>
+        <div>
+          <input type="checkbox" id="multiply"> <label for="multiply">Multiplication</label>
+        </div>
+        <div>
+          <input type="checkbox" id="divide"> <label for="divide">Division</label>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Question and Answer Section -->
+    <section class="question-area">
+      <h2 id="question">Select settings and press Start to begin!</h2>
+      <input type="number" id="answer" placeholder="Your answer">
+      <button class="submit-btn" onclick="checkAnswer()">Submit</button>
+      <div id="timer" class="timer">Time: 10</div>
+    </section>
+  
+    <!-- Feedback and Progress Section -->
+    <section class="feedback-and-progress">
+      <div id="feedback" class="feedback"></div>
+      <div class="progress-container">
+        <span class="progress-bar-label">Accuracy Progress</span>
+        <div class="progress-bar">
+          <div class="progress" id="progress"></div>
+        </div>
+      </div>
+      <div id="score" class="score-text">Score: 0</div>
+      <div id="accuracy" class="score-text">Accuracy: 100%</div>
+    </section>
+  
+    <!-- Start Game Button -->
+    <button class="start-btn" onclick="startGame()">Start Game</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

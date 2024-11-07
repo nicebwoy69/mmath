@@ -1,0 +1,131 @@
+{
+  "addition": {
+    "easy": [
+      "Start with single-digit numbers. Try counting up from the larger number to make it easier.",
+      "Use finger counting if needed, and practice with small sums to build confidence."
+    ],
+    "medium": [
+      "Break numbers down by tens and ones. For example, in 23 + 15, add the tens (20 + 10 = 30) and the ones (3 + 5 = 8). Combine them to get 38.",
+      "Round up one number, add, and then adjust by subtracting the extra amount. For instance, 58 + 19 can be rounded to 58 + 20 = 78, then subtract 1 for 77."
+    ],
+    "hard": [
+      "Add two-digit numbers by tens first, then ones. Example: 47 + 36. Add tens (40 + 30 = 70) and ones (7 + 6 = 13), then combine (70 + 13 = 83).",
+      "Estimation helps with larger numbers: round up to the nearest ten for a quick mental calculation, then adjust by subtracting any extra."
+    ],
+    "advanced": [
+      "For three-digit addition, split each number by hundreds, tens, and ones, then add each part separately.",
+      "When adding decimals, line up the decimal points, add each place value independently, and make adjustments as necessary.",
+      "Add left-to-right by starting with the hundreds, then tens, then ones. For example, with 345 + 276, add hundreds first (300 + 200), then tens, then ones."
+    ],
+    "challenger": [
+      "Use place value to break down three-digit addition. For example, 356 + 274 can be split to (300 + 200), (50 + 70), and (6 + 4), then combined.",
+      "Try adding left-to-right for large numbers: add hundreds, then tens, then ones for improved mental clarity.",
+      "For decimals, round one number for estimation, then add and adjust back to get the exact answer."
+    ],
+    "master": [
+      "For multi-step calculations, add the larger parts first (e.g., hundreds, then tens), then fine-tune by adding smaller parts for precision.",
+      "Practice adding decimals by breaking each down into whole numbers and decimal parts, then combining carefully to maintain accuracy."
+    ],
+    "decimal": [
+      "Line up the decimal points before adding. Start from the right, adding each place value separately (e.g., tenths, hundredths).",
+      "Round decimals for an estimate, then add and adjust back for accuracy. For example, 3.56 + 1.89 can be rounded to 3.6 + 1.9, then adjusted back."
+    ]
+  },
+  "subtraction": {
+    "easy": [
+      "For single-digit subtraction, count backward from the larger number.",
+      "Think of subtraction as 'adding up' to the larger number. For example, to solve 9 - 4, ask yourself, 'What do I add to 4 to reach 9?'"
+    ],
+    "medium": [
+      "With two-digit numbers, try rounding up to the nearest ten, subtract, then adjust. For example, 53 - 19 can be thought of as 53 - 20 + 1.",
+      "Subtract left-to-right for larger two-digit numbers: start with tens, then subtract the ones."
+    ],
+    "hard": [
+      "Break down by place value: subtract the tens first, then the ones. Example: 67 - 32 is (60 - 30) + (7 - 2) = 35.",
+      "For rough estimation, round both numbers to the nearest ten and adjust. This is useful for quick mental subtraction."
+    ],
+    "advanced": [
+      "Subtract three-digit numbers by handling hundreds, tens, and ones separately. For example, 456 - 123 is (400 - 100) + (50 - 20) + (6 - 3).",
+      "Line up decimal points for decimal subtraction, subtracting each place value independently for better accuracy.",
+      "Use left-to-right subtraction for larger numbers to keep track mentally, subtracting hundreds, then tens, then ones."
+    ],
+    "challenger": [
+      "For more complex three-digit subtraction, use 'add up' by finding the difference you need to reach the larger number.",
+      "If subtracting a smaller number with decimals, round to the nearest tenth or whole number, subtract, and then adjust."
+    ],
+    "master": [
+      "Use multi-step subtraction by handling the largest place values first, then refining with smaller digits for precision.",
+      "For decimal calculations, round both numbers first, subtract for an estimate, then adjust for exact values if necessary.",
+      "Break down multi-step problems by subtracting in chunks for faster processing."
+    ],
+    "decimal": [
+      "Align decimal points when subtracting to ensure accuracy. Start from the right and subtract each place value individually.",
+      "If needed, round to simplify decimals, then adjust back. For example, 5.83 - 2.56 can be rounded to 5.8 - 2.6 for a quick estimate."
+    ]
+  },
+  "multiplication": {
+    "easy": [
+      "For smaller numbers, practice with a times table up to 10 to build confidence.",
+      "Use repeated addition as a method. For example, to multiply 3 × 4, think of it as 4 + 4 + 4."
+    ],
+    "medium": [
+      "Break down one factor for easier multiplication. For instance, 6 × 12 can be split to (6 × 10) + (6 × 2) = 60 + 12 = 72.",
+      "Use rounding to get an estimate, then adjust. For example, 9 × 11 is close to 10 × 10, which is easy to calculate mentally."
+    ],
+    "hard": [
+      "Double and halve for easier multiplication. For example, 25 × 16 can be thought of as (50 × 8).",
+      "Multiply in parts using place value. For 34 × 15, think of it as (30 + 4) × (10 + 5) for easier calculation."
+    ],
+    "advanced": [
+      "For three-digit numbers, use partial products. For example, 123 × 4 can be split as (100 × 4) + (20 × 4) + (3 × 4).",
+      "When multiplying decimals, ignore the decimal initially, then place it in the final answer based on the total decimal places.",
+      "Break down large numbers into manageable parts. For example, multiply hundreds, then tens, then ones."
+    ],
+    "challenger": [
+      "Multiply three-digit numbers by breaking into hundreds, tens, and ones for partial products. Example: 326 × 7 is (300 × 7) + (20 × 7) + (6 × 7).",
+      "For multiplying numbers with decimals, treat the numbers as whole, then reinsert the decimal point in the final product."
+    ],
+    "master": [
+      "When facing multi-step multiplications, handle the largest parts first, then use estimation and rounding for refinement.",
+      "Use partial products or lattice methods to split large numbers and maintain mental organization.",
+      "For very large numbers, estimate by rounding to a nearby base (100, 1000), then adjust."
+    ],
+    "decimal": [
+      "Ignore the decimal point initially when multiplying. Multiply as if the numbers are whole, then place the decimal based on the number of decimal places in both factors.",
+      "Round one decimal for easier multiplication, then adjust. For instance, for 3.4 × 2.7, estimate using 3.5 × 3, then adjust back."
+    ]
+  },
+  "division": {
+    "easy": [
+      "Use basic division facts (multiples of 2, 5, and 10) as a foundation for quick division.",
+      "For small numbers, repeated subtraction can help visualize division. For example, in 10 ÷ 2, count how many times you subtract 2 from 10."
+    ],
+    "medium": [
+      "Estimate the result by rounding. For example, 49 ÷ 6 is close to 50 ÷ 6, which can be estimated as 8.5.",
+      "If dividing a small number, try breaking the number into smaller parts for easier calculation."
+    ],
+    "hard": [
+      "Divide larger numbers by estimation, then adjust the quotient for accuracy. Example: 125 ÷ 5 is close to 120 ÷ 5, which is 24.",
+      "For decimals, move the decimal point to make the divisor a whole number. Example: 4.5 ÷ 0.5 becomes 45 ÷ 5."
+    ],
+    "advanced": [
+      "Break the dividend into parts for complex divisions. For example, 360 ÷ 15 can be split as 300 ÷ 15 and 60 ÷ 15.",
+      "Estimate by compatible numbers. If 98 ÷ 4 seems complex, round to 100 ÷ 4, then adjust slightly.",
+      "For decimals, convert to whole numbers, divide, then adjust back for the decimal."
+    ],
+    "challenger": [
+      "Divide three-digit numbers by a two-digit divisor using estimation and adjustment.",
+      "For divisions with decimals, round both numbers, divide, and then adjust to get closer to an accurate answer.",
+      "Break down complex division into tens and hundreds, using rounding for efficiency."
+    ],
+    "master": [
+      "Break down complex divisions by handling each part separately. For example, divide hundreds, then tens, then ones.",
+      "For decimal division, ignore the decimal initially, calculate, then adjust by adding back the decimal in the correct place.",
+      "Estimate using compatible numbers close to the divisor, especially for larger numbers."
+    ],
+    "decimal": [
+      "Shift the decimal in both the dividend and divisor to make the divisor a whole number, then divide.",
+      "For 5.6 ÷ 0.7, multiply both by 10 to get 56 ÷ 7, which simplifies the calculation."
+    ]
+  }
+}

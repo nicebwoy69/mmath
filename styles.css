@@ -1,0 +1,307 @@
+/* General Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f8fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container */
+.container {
+    max-width: 800px;
+    width: 100%;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Header Styling */
+header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Game Settings Section */
+.settings-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+/* Select Group Styling */
+.select-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+}
+
+.setting label {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+select {
+    padding: 8px;
+    font-size: 1rem;
+    background-color: #eeeeee;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    width: 140px;
+}
+
+/* Operations Group Styling */
+.operations-group {
+    text-align: left;
+    font-size: 1rem;
+}
+
+.operations-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.operations-group div {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.operations-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Question and Answer Section */
+.question-area {
+    margin-bottom: 20px;
+}
+
+#question {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+#answer {
+    padding: 12px;
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 15px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    width: 70%;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Submit and Hint Button Styling */
+.submit-btn, .hint-btn {
+    padding: 12px 25px;
+    font-size: 1.2rem;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.submit-btn {
+    background-color: #4caf50;
+}
+
+.submit-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+.hint-btn {
+    background-color: #ff9800;
+}
+
+.hint-btn:hover {
+    background-color: #fb8c00;
+    transform: translateY(-2px);
+}
+
+/* Timer Styling */
+.timer {
+    font-size: 1.2rem;
+    color: #f44336;
+    margin-top: 10px;
+}
+
+/* Feedback Styling */
+.feedback {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-top: 15px;
+    color: #333;
+}
+
+/* Progress and Score Section */
+.progress-container {
+    margin-top: 15px;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 24px;
+}
+
+.progress {
+    height: 100%;
+    background-color: #4caf50;
+    transition: width 0.3s ease;
+}
+
+.progress-bar-label {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.score-text {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* Start Game Button */
+.start-btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    color: #fff;
+    background-color: #2196f3;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.start-btn:hover {
+    background-color: #1e88e5;
+    transform: translateY(-2px);
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    max-width: 80%;
+    z-index: 10;
+}
+
+.modal-content {
+    position: relative;
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+.close:hover {
+    color: #000;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+
+    .settings-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    #answer {
+        width: 100%;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    #question {
+        font-size: 1.8rem;
+    }
+
+    .submit-btn, .hint-btn, .start-btn {
+        width: 100%;
+        font-size: 1.1rem;
+        padding: 10px 0;
+    }
+}
+
+/* Larger Screen Adjustments */
+@media (min-width: 1024px) {
+    .container {
+        max-width: 800px;
+        padding: 40px;
+    }
+
+    #question {
+        font-size: 2.4rem;
+    }
+
+    #answer {
+        font-size: 1.8rem;
+        padding: 12px;
+        width: 60%;
+    }
+
+    .submit-btn, .hint-btn, .start-btn {
+        font-size: 1.3rem;
+        padding: 12px 25px;
+    }
+
+    .feedback {
+        font-size: 1.5rem;
+    }
+
+    .progress-bar {
+        height: 24px;
+    }
+}
