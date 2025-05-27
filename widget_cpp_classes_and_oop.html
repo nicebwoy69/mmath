@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C++ OOP: Classes & Composition (Side-by-Side)</title>
+    <title>C++ OOP: Classes & Composition (Interactive Views)</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
     <style>
+        /* Universal Box Sizing */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
         /* Basic Reset & Body Styles */
         body {
             font-family: 'Menlo', 'Consolas', 'DejaVu Sans Mono', monospace;
@@ -14,94 +21,157 @@
             margin: 0; /* Remove default margin */
             font-size: 16px;
             line-height: 1.6;
+            display: flex; /* Use flexbox for overall page structure */
+            flex-direction: column; /* Stack view-controls and layout-container vertically */
+            height: 100vh; /* Full viewport height */
+            overflow: hidden; /* Prevent body scrollbars, panels will scroll */
         }
+
+        /* View Controls Bar */
+        .view-controls {
+            padding: 10px;
+            background-color: #3a3a3a;
+            border-bottom: 1px solid #555;
+            text-align: center;
+            flex-shrink: 0; /* Prevent controls from shrinking */
+        }
+        .view-controls button {
+            background-color: #66d9ef; /* Okaidia cyan */
+            color: #272822;
+            border: none;
+            padding: 8px 15px;
+            margin: 5px; /* Added margin for wrapping */
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .view-controls button:hover {
+            background-color: #79e6ff;
+        }
+        .view-controls button.active {
+            background-color: #f92672; /* Okaidia pink */
+            color: #fff;
+        }
+
 
         /* Layout Container */
         .layout-container {
             display: flex;
-            height: 100vh; /* Full viewport height */
+            flex-grow: 1; /* Takes remaining height */
+            overflow: hidden; /* Prevent layout container from causing scroll, panels will scroll */
         }
 
         /* Tutorial Panel Styles */
         .tutorial-panel {
-            flex: 3; /* Tutorial panel takes more space (e.g., 60%) */
+            flex: 3; /* Default for split view */
             padding: 25px;
             overflow-y: auto; /* Allow scrolling for tutorial content */
-            border-right: 2px solid #444; /* Separator line */
+            border-right: 2px solid #444;
+            background-color: #272822; /* Match body */
         }
 
         /* Playground Panel Styles */
         .playground-panel {
-            flex: 2; /* Playground panel takes less space (e.g., 40%) */
+            flex: 2; /* Default for split view */
             display: flex;
-            flex-direction: column; /* Stack elements vertically if needed */
-            padding: 10px; /* Some padding around the embed */
-            background-color: #2c2f33; /* Slightly different background for the panel itself */
+            flex-direction: column;
+            padding: 10px;
+            background-color: #2c2f33;
+            overflow: hidden; /* Prevent panel itself from scrolling, iframe should handle it or be fully visible */
         }
         .playground-panel .jdoodle-embed-container {
-            flex-grow: 1; /* Make the container for the embed take available space */
+            flex-grow: 1;
             width: 100%;
-            height: 100%; /* Pym.js should handle the iframe height within this */
+            height: 100%; /* Pym.js should make the iframe fill this */
+              overflow: auto; /* Let Pym.js and the iframe handle their own scrolling */
+        }
+        .playground-panel .jdoodle-embed-container div[data-pym-src] {
+             width: 100%;
+             height: 100%; /* Ensure the Pym.js target div also takes full space */
         }
 
 
-        /* Styles for Tutorial Content (adapted from previous version) */
+        /* View Mode Specific Styles */
+        .layout-container.tutorial-view .playground-panel { display: none; }
+        .layout-container.tutorial-view .tutorial-panel { flex: 1 0 100%; border-right: none; }
+
+        .layout-container.playground-view .tutorial-panel { display: none; }
+        .layout-container.playground-view .playground-panel { flex: 1 0 100%; }
+
+        .layout-container.split-view .tutorial-panel { display: block; flex: 3; }
+        .layout-container.split-view .playground-panel { display: flex; flex: 2; }
+
+
+        /* Styles for Tutorial Content */
         .tutorial-panel h1,
         .tutorial-panel h2 {
             font-family: Arial, sans-serif;
-            color: #e6db74; /* Okaidia yellow for headings */
+            color: #e6db74;
             border-bottom: 1px solid #555;
             padding-bottom: 10px;
         }
-        .tutorial-panel h1 {
-            margin-top: 0;
-            font-size: 1.8em; /* Slightly adjusted for panel view */
-        }
-        .tutorial-panel h2 {
-            font-size: 1.4em;
-            margin-top: 25px;
-        }
+        .tutorial-panel h1 { margin-top: 0; font-size: 1.8em; }
+        .tutorial-panel h2 { font-size: 1.4em; margin-top: 25px; }
         .tutorial-panel pre[class*="language-"] {
-            margin-top: 15px;
-            margin-bottom: 15px;
-            border-radius: 0.3em;
-            font-size: 0.9em; /* Slightly smaller for panel */
-            border: 1px solid #444;
-            overflow: auto;
-            padding: 1em;
+            margin: 15px 0; border-radius: 0.3em; font-size: 0.9em;
+            border: 1px solid #444; overflow: auto; padding: 1em;
         }
-        .tutorial-panel p,
-        .tutorial-panel li {
-            margin-bottom: 10px;
-        }
-        .tutorial-panel ul {
-            padding-left: 20px;
-        }
+        .tutorial-panel p, .tutorial-panel li { margin-bottom: 10px; }
+        .tutorial-panel ul { padding-left: 20px; }
         .tutorial-panel code.inline-code {
-            background-color: #3c3d3a;
-            color: #f8f8f2;
-            padding: 0.2em 0.4em;
-            border-radius: 0.2em;
-            font-size: 0.85em;
+            background-color: #3c3d3a; color: #f8f8f2; padding: 0.2em 0.4em;
+            border-radius: 0.2em; font-size: 0.85em;
         }
         .tutorial-panel .explanation-box {
-            background-color: #3c3d3a;
-            border-left: 5px solid #ae81ff; /* Okaidia purple for emphasis */
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0.3em;
+            background-color: #3c3d3a; border-left: 5px solid #ae81ff;
+            padding: 15px; margin: 20px 0; border-radius: 0.3em;
         }
         .tutorial-panel .explanation-box h3 {
-            margin-top: 0;
-            color: #a6e22e; /* Okaidia green */
-            font-family: Arial, sans-serif;
-            font-size: 1.1em;
+            margin-top: 0; color: #a6e22e; font-family: Arial, sans-serif; font-size: 1.1em;
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            .layout-container {
+                flex-direction: column; /* Stack panels vertically */
+            }
+            .tutorial-panel {
+                flex: 1 1 auto; /* Allow panel to grow and shrink, but take necessary height */
+                border-right: none;
+                border-bottom: 2px solid #444; /* Separator when stacked */
+                height: 50vh; /* Example: give each panel 50% of viewport height */
+                min-height: 200px; /* Ensure a minimum height */
+            }
+            .playground-panel {
+                flex: 1 1 auto; /* Allow panel to grow and shrink */
+                height: 50vh; /* Example: give each panel 50% of viewport height */
+                min-height: 300px; /* Ensure a minimum height for playground */
+            }
+
+            /* Adjust view mode styles for stacked layout */
+            .layout-container.tutorial-view .tutorial-panel { height: auto; flex-grow: 1; border-bottom: none;}
+            .layout-container.playground-view .playground-panel { height: auto; flex-grow: 1; }
+            
+            .view-controls {
+                display: flex;
+                flex-wrap: wrap; /* Allow buttons to wrap */
+                justify-content: center;
+            }
+            .view-controls button {
+                font-size: 0.9em;
+                padding: 6px 10px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="layout-container">
-        <div class="tutorial-panel">
+    <div class="view-controls">
+        <button id="viewTutorialBtn">Tutorial Only</button>
+        <button id="viewSplitBtn" class="active">Split View</button>
+        <button id="viewPlaygroundBtn">Playground Only</button>
+    </div>
+
+    <div class="layout-container split-view"> <div class="tutorial-panel">
             <h1>C++ OOP: Classes & Composition</h1>
 
             <div class="explanation-box">
@@ -109,19 +179,18 @@
                 <p>Object-Oriented Programming is a way of thinking about and organizing code. Instead of just writing sequences of commands, you design your program around "objects." These objects bundle together data and functions that operate on that data.</p>
                 <p><strong>Key Ideas in OOP:</strong></p>
                 <ul>
-                    <li><strong>Class:</strong> A blueprint or template for creating objects. It defines what data an object will hold and what it can do.</li>
-                    <li><strong>Object:</strong> An instance of a class. It's a concrete entity created from the class blueprint, with its own set of data.</li>
-                    <li><strong>Encapsulation:</strong> Bundling data and methods within a class and controlling access to the data (often hiding it).</li>
-                    <li><strong>Composition (covered in this tutorial):</strong> Building complex objects by combining simpler ones (a "has-a" relationship).</li>
-                    <li><strong>Inheritance (later topic):</strong> Creating new classes based on existing ones (an "is-a" relationship).</li>
-                    <li><strong>Polymorphism (later topic):</strong> Allowing objects of different classes to respond to the same message in different ways.</li>
+                    <li><strong>Class:</strong> A blueprint or template for creating objects.</li>
+                    <li><strong>Object:</strong> An instance of a class.</li>
+                    <li><strong>Encapsulation:</strong> Bundling data and methods within a class and controlling access.</li>
+                    <li><strong>Composition (covered in this tutorial):</strong> Building complex objects from simpler ones.</li>
+                    <li><strong>Inheritance (later topic):</strong> Creating new classes based on existing ones.</li>
+                    <li><strong>Polymorphism (later topic):</strong> Allowing objects of different classes to respond differently to the same message.</li>
                 </ul>
                 <p>This tutorial focuses on: <strong>Classes</strong>, <strong>Objects</strong>, <strong>Encapsulation</strong>, and simple <strong>Value-based Composition</strong>.</p>
             </div>
 
             <h2>Example: The `Book` Class</h2>
-            <p>Let's define a class called <code class="inline-code">Book</code>. A book has attributes like a title, author, and number of pages. It can also have actions, like displaying its information.</p>
-
+            <p>Let's define a class called <code class="inline-code">Book</code>.</p>
 <pre class="language-cpp"><code class="language-cpp">// Code for the Book class definition
 #include &lt;iostream&gt;
 #include &lt;string&gt;
@@ -136,16 +205,15 @@ private:
     string author;
     int pages;
 public:
-    Book() { // Default Constructor
+    // Default Constructor
+    Book() {
         title = "Unknown Title";
         author = "Unknown Author";
         pages = 0;
         cout &lt;&lt; "Default Constructor called for Book." &lt;&lt; endl;
     }
-    Book(string t, string a, int p) { // Parameterized Constructor
-        title = t;
-        author = a;
-        pages = p;
+    // Parameterized Constructor
+    Book(string t, string a, int p) : title(t), author(a), pages(p) {
         cout &lt;&lt; "Parameterized Constructor called for Book: " &lt;&lt; title &lt;&lt; endl;
     }
     void displayInfo() const {
@@ -155,21 +223,19 @@ public:
         cout &lt;&lt; "Pages: " &lt;&lt; pages &lt;&lt; endl;
         cout &lt;&lt; "------------------------" &lt;&lt; endl;
     }
-    ~Book() { // Destructor
+    // Destructor
+    ~Book() {
         cout &lt;&lt; "Destructor called for Book: " &lt;&lt; title &lt;&lt; endl;
     }
 };
 </code></pre>
             <p><strong>Demonstrating the `Book` Class:</strong></p>
-            <p>Below is a <code class="inline-code">main()</code> function that creates and uses <code class="inline-code">Book</code> objects. You can copy this into the playground to see it in action. (If you also copy the Composition example later, make sure only one <code class="inline-code">main()</code> function is active at a time).</p>
+            <p>Below is a <code class="inline-code">main()</code> function. Copy this (and the Book class definition above) into the playground. (Ensure only one <code class="inline-code">main()</code> is active if testing multiple examples by renaming others, e.g., to <code class="inline-code">main_book_demo</code>).</p>
 <pre class="language-cpp"><code class="language-cpp">// main function to demonstrate the Book class
-// #include &lt;iostream&gt; // Already included if Book class definition is in the same file
-// #include &lt;string&gt;   // Already included
-// using namespace std; // Assuming Book class also uses this or std:: prefix
-
-// (Book class definition would be above this main function if in the same file)
-
-int main_book_demo() { // Renamed to avoid conflict if testing both examples
+// Make sure the Book class definition is above this or included.
+// To run THIS main, ensure any other main() function is commented out or renamed.
+/* // Uncomment this main function to run the Book demo
+int main_book_demo() { // Renamed to avoid conflict; rename to main() to run
     cout &lt;&lt; "--- Program starting: Creating Book objects ---" &lt;&lt; endl;
 
     Book book1; // Calls Default Constructor
@@ -186,28 +252,16 @@ int main_book_demo() { // Renamed to avoid conflict if testing both examples
     cout &lt;&lt; "\n--- Program ending: Objects will be destroyed ---" &lt;&lt; endl;
     return 0;
 }
+*/
 </code></pre>
-
-
             <h2>Dissecting the `Book` Class</h2>
             <ul>
-                <li><strong>Class Keyword:</strong> <code class="inline-code">class Book { ... };</code> declares a new class named <code class="inline-code">Book</code>. The definition ends with a semicolon.</li>
-                <li><strong>Access Specifiers:</strong>
-                    <ul>
-                        <li><code class="inline-code">private:</code> Members declared after this are only accessible from within the class itself. This is for <strong>data hiding</strong>.</li>
-                        <li><code class="inline-code">public:</code> Members declared after this are accessible from anywhere outside the class. This forms the class's public interface.</li>
-                    </ul>
-                </li>
-                <li><strong>Member Variables (Data Members/Attributes):</strong> Variables declared inside the class (e.g., <code class="inline-code">title</code>).</li>
-                <li><strong>Member Functions (Methods):</strong> Functions declared inside the class.
-                    <ul>
-                        <li><strong>Constructors:</strong> Special methods for object creation and initialization.</li>
-                        <li><strong>Regular Member Functions:</strong> E.g., <code class="inline-code">displayInfo() const</code>.</li>
-                        <li><strong>Destructor:</strong> Special method for cleanup.</li>
-                    </ul>
-                </li>
-                <li><strong>Creating Objects (Instantiation):</strong> E.g., <code class="inline-code">Book book1;</code>.</li>
-                <li><strong>Accessing Members:</strong> Using the dot operator (<code class="inline-code">.</code>).</li>
+                <li><strong>Class Keyword:</strong> <code class="inline-code">class Book { ... };</code></li>
+                <li><strong>Access Specifiers:</strong> <code class="inline-code">private:</code>, <code class="inline-code">public:</code>.</li>
+                <li><strong>Member Variables:</strong> e.g., <code class="inline-code">title</code>.</li>
+                <li><strong>Member Functions:</strong> Constructors, <code class="inline-code">displayInfo() const</code>, Destructor.</li>
+                <li><strong>Creating Objects:</strong> e.g., <code class="inline-code">Book book1;</code>.</li>
+                <li><strong>Accessing Members:</strong> Using <code class="inline-code">.</code> operator.</li>
             </ul>
 
             <h2>Syntax Skeletons</h2>
@@ -295,16 +349,15 @@ public:
 
             <h2>Value-based Composition: The "Has-A" Relationship</h2>
             <div class="explanation-box">
-                <h3>Building Complex Objects from Simpler Ones</h3>
-                <p>Composition is a fundamental OOP concept where a class (the "whole" or "composite") is made up of, or contains, objects of other classes (the "parts"). This represents a <strong>"has-a"</strong> relationship. For example, a <code class="inline-code">Car</code> "has-an" <code class="inline-code">Engine</code>.</p>
-                <p>In value-based composition (also known as composition by member object), the "part" objects are directly members of the "whole" class. Their lifetime is typically tied to the lifetime of the containing object.</p>
+                <h3>Building Complex Objects</h3>
+                <p>Composition: a class contains objects of other classes (a "has-a" relationship, e.g., <code class="inline-code">Car</code> has-an <code class="inline-code">Engine</code>). In value-based composition, "part" objects are direct members; their lifetime is tied to the "whole".</p>
             </div>
-
-            <p>Let's illustrate with an <code class="inline-code">Address</code> class and a <code class="inline-code">Person</code> class. A <code class="inline-code">Person</code> "has-an" <code class="inline-code">Address</code>.</p>
-            <p>You can copy the entire code block below (including the `main()` function) into the playground to test this Composition example. Remember to only have one active `main()` function if you are combining examples.</p>
+            <p>Example: <code class="inline-code">Person</code> "has-an" <code class="inline-code">Address</code>. Copy the code below (including `main()`) to test. Remember to only have one active `main()` function.</p>
 <pre class="language-cpp"><code class="language-cpp">#include &lt;iostream&gt;
 #include &lt;string&gt;
 
+// Using directives are often placed at the top-level for convenience in examples
+// but in larger projects, it's better to scope them or use std:: prefix.
 using std::cout;
 using std::endl;
 using std::string;
@@ -316,22 +369,16 @@ public: // Made public for easier direct access in this simple example
     string city;
     string state;
 
-    // Constructor for Address
-    Address(string str, string c, string st) : street(str), city(c), state(st) {
-        // cout &lt;&lt; "Address created: " &lt;&lt; street &lt;&lt; endl;
+    // Constructor for Address with default arguments
+    Address(string str = "N/A", string c = "N/A", string st = "N/A") 
+        : street(str), city(c), state(st) {
+        // cout &lt;&lt; "Address object created: " &lt;&lt; street &lt;&lt; endl;
     }
-
-    // Default constructor
-    Address() : street("N/A"), city("N/A"), state("N/A") {
-        // cout &lt;&lt; "Default Address created." &lt;&lt; endl;
-    }
+    // No explicit default constructor needed if parameterized one has defaults for all members.
+    // No explicit destructor needed for this simple class as it doesn't manage dynamic resources.
 
     void displayAddress() const {
         cout &lt;&lt; street &lt;&lt; ", " &lt;&lt; city &lt;&lt; ", " &lt;&lt; state;
-    }
-
-    ~Address() {
-        // cout &lt;&lt; "Address destroyed: " &lt;&lt; street &lt;&lt; endl;
     }
 };
 
@@ -342,13 +389,15 @@ private:
     Address homeAddress; // Person "has-an" Address object (Composition)
 
 public:
+    // Constructor for Person, taking an existing Address object
     Person(string n, Address addr) : name(n), homeAddress(addr) {
-        cout &lt;&lt; "Person created (with existing Address): " &lt;&lt; name &lt;&lt; endl;
+        cout &lt;&lt; "Person object created (with existing Address): " &lt;&lt; name &lt;&lt; endl;
     }
 
+    // Constructor for Person, initializing Address object inline
     Person(string n, string street, string city, string state)
-        : name(n), homeAddress(street, city, state) {
-        cout &lt;&lt; "Person created (Address initialized inline): " &lt;&lt; name &lt;&lt; endl;
+        : name(n), homeAddress(street, city, state) { // Calls Address(string, string, string) constructor
+        cout &lt;&lt; "Person object created (Address initialized inline): " &lt;&lt; name &lt;&lt; endl;
     }
 
     void displayPersonInfo() const {
@@ -359,26 +408,37 @@ public:
     }
 
     ~Person() {
-        cout &lt;&lt; "Person destroyed: " &lt;&lt; name &lt;&lt; endl;
+        cout &lt;&lt; "Person object destroyed: " &lt;&lt; name &lt;&lt; endl;
+        // The homeAddress member object (Address type) will be automatically destroyed here
+        // because it's a value member, and its destructor will be called.
     }
 };
 
-// main function to demonstrate Composition
-// To run this, ensure any other main() function (like main_book_demo) is commented out or renamed.
+// To run THIS main, ensure any other main() function (like the Book demo's main) is commented out or renamed.
 int main() { 
-    cout &lt;&lt; "--- Creating Address object first ---" &lt;&lt; endl;
+    cout &lt;&lt; "--- Program starting: Composition Demo ---" &lt;&lt; endl;
+    
+    cout &lt;&lt; "\n--- Creating Address object first ---" &lt;&lt; endl;
     Address ad1("123 Main St", "Anytown", "CA");
+    // ad1.displayAddress(); // Optional: display address directly
 
     cout &lt;&lt; "\n--- Creating Person object using pre-existing Address object ---" &lt;&lt; endl;
-    Person p1("Alice W.", ad1);
+    Person p1("Alice Wonderland", ad1); // ad1 is copied into p1.homeAddress
     p1.displayPersonInfo();
 
     cout &lt;&lt; "\n--- Creating Person object, initializing Address inline ---" &lt;&lt; endl;
-    Person p2("Bob B.", "456 Oak Ave", "BuildCity", "NY");
+    Person p2("Bob The Builder", "456 Oak Ave", "BuildCity", "NY");
     p2.displayPersonInfo();
     
-    cout &lt;&lt; "\n--- Program ending ---" &lt;&lt; endl;
+    cout &lt;&lt; "\n--- Program ending: Objects will be destroyed ---" &lt;&lt; endl;
     return 0;
+    /*
+     * Destructor order for stack objects is typically reverse order of creation:
+     * When main ends:
+     * 1. p2 is destroyed (Person destructor called, then p2.homeAddress's Address destructor).
+     * 2. p1 is destroyed (Person destructor called, then p1.homeAddress's Address destructor).
+     * 3. ad1 is destroyed (Address destructor called).
+     */
 }
 </code></pre>
             <p><strong>Explanation of Value-based Composition:</strong></p>
@@ -386,29 +446,64 @@ int main() {
                 <li>The <code class="inline-code">Person</code> class contains an actual <code class="inline-code">Address</code> object named <code class="inline-code">homeAddress</code> as one of its members.</li>
                 <li><strong>Initialization:</strong> When a <code class="inline-code">Person</code> object is created, its <code class="inline-code">homeAddress</code> member must also be initialized. This is typically done using the member initializer list in the <code class="inline-code">Person</code> constructor.</li>
                 <li><strong>Lifetime:</strong> The <code class="inline-code">homeAddress</code> object is part of the <code class="inline-code">Person</code> object. It is created when the <code class="inline-code">Person</code> object is created and destroyed when the <code class="inline-code">Person</code> object is destroyed.</li>
-                <li>This is the simplest form of composition and is very common.</li>
             </ul>
-            <p>Value-based composition is powerful for building complex types from simpler, well-defined parts without the immediate need to manage memory with pointers.</p>
+            <p>Value-based composition is powerful for building complex types.</p>
 
             <h2>Summary</h2>
             <ul>
-                <li><strong>Classes</strong> are blueprints for creating objects. They define attributes (data) and behaviors (methods).</li>
-                <li><strong>Objects</strong> are instances of classes. Each object has its own set of data based on the class blueprint.</li>
-                <li>Use <code class="inline-code">private</code> to hide internal data and implementation details (<strong>Encapsulation</strong>).</li>
-                <li>Use <code class="inline-code">public</code> to define the interface through which objects are used.</li>
-                <li><strong>Composition (Value-based):</strong> Classes can contain objects of other classes as members, forming a "has-a" relationship.</li>
-                <li><strong>Constructors</strong> initialize objects when they are created, including member objects.</li>
-                <li><strong>Destructors</strong> clean up resources when objects are destroyed, including member objects.</li>
-                <li>Member functions operate on the data of the object they belong to.</li>
+                <li><strong>Classes</strong> are blueprints; <strong>Objects</strong> are instances.</li>
+                <li><code class="inline-code">private</code> for data hiding (<strong>Encapsulation</strong>); <code class="inline-code">public</code> for interface.</li>
+                <li><strong>Composition (Value-based):</strong> Classes can contain member objects ("has-a" relationship).</li>
+                <li><strong>Constructors</strong> initialize objects, including member objects.</li>
+                <li><strong>Destructors</strong> clean up, including member objects.</li>
+                <li>Member functions operate on their object's data.</li>
             </ul>
-            <p>These concepts form a strong foundation in OOP. Future topics will build upon this, including Pointers and Dynamic Memory, different forms of Composition (using pointers and smart pointers), Inheritance, and Polymorphism.</p>
+            <p>Future topics: Pointers, Dynamic Composition (smart pointers), Inheritance, Polymorphism.</p>
 
         </div><div class="playground-panel">
             <div class="jdoodle-embed-container">
                 <div data-pym-src='https://www.jdoodle.com/embed/v1/39f9c7b2839c489a'></div>
+                 <p style="font-size: 0.8em; padding-top: 10px; text-align: center;">
+                    Note: If the embedded JDoodle code is not editable, try looking for an "Edit" or "Fork" button within the embed.
+                    Alternatively, the specific shared project might be read-only. You can always copy the code into your own JDoodle project.
+                    If scrolling is an issue, try adjusting your browser zoom or ensure the panel has enough vertical space.
+                </p>
             </div>
             <script src='https://www.jdoodle.com/assets/jdoodle-pym.min.js' type='text/javascript'></script>
         </div></div><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-</body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const layoutContainer = document.querySelector('.layout-container');
+            const tutorialBtn = document.getElementById('viewTutorialBtn');
+            const splitBtn = document.getElementById('viewSplitBtn');
+            const playgroundBtn = document.getElementById('viewPlaygroundBtn');
+            const buttons = [tutorialBtn, splitBtn, playgroundBtn];
+
+            function setActiveButton(activeBtn) {
+                buttons.forEach(btn => btn.classList.remove('active'));
+                if (activeBtn) {
+                    activeBtn.classList.add('active');
+                }
+            }
+
+            tutorialBtn.addEventListener('click', function () {
+                layoutContainer.className = 'layout-container tutorial-view';
+                setActiveButton(tutorialBtn);
+            });
+
+            splitBtn.addEventListener('click', function () {
+                layoutContainer.className = 'layout-container split-view';
+                setActiveButton(splitBtn);
+            });
+
+            playgroundBtn.addEventListener('click', function () {
+                layoutContainer.className = 'layout-container playground-view';
+                setActiveButton(playgroundBtn);
+            });
+
+            // Set initial active button
+            setActiveButton(splitBtn);
+        });
+    </script></body>
 </html>
